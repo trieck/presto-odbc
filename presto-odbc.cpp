@@ -1,22 +1,53 @@
-// presto-odbc.cpp : Defines the exported functions for the DLL application.
-//
-
 #include "stdafx.h"
 #include "presto-odbc.h"
+#include <sql.h>
 
+extern "C" {
 
-// This is an example of an exported variable
-PRESTOODBC_API int nprestoodbc=0;
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLAllocHandle(SQLSMALLINT HandleType,
+        SQLHANDLE InputHandle, _Out_ SQLHANDLE *OutputHandle)
+    {
+        return SQL_SUCCESS;
+    }
 
-// This is an example of an exported function.
-PRESTOODBC_API int fnprestoodbc(void)
-{
-	return 42;
-}
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLBindCol(SQLHSTMT StatementHandle,
+        SQLUSMALLINT ColumnNumber, SQLSMALLINT TargetType,
+        _Inout_updates_opt_(_Inexpressible_(BufferLength)) SQLPOINTER TargetValue,
+        SQLLEN BufferLength, _Inout_opt_ SQLLEN *StrLen_or_Ind)
+    {
+        return SQL_SUCCESS;
+    }
 
-// This is the constructor of a class that has been exported.
-// see presto-odbc.h for the class definition
-Cprestoodbc::Cprestoodbc()
-{
-	return;
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLBindParameter(
+        SQLHSTMT           hstmt,
+        SQLUSMALLINT       ipar,
+        SQLSMALLINT        fParamType,
+        SQLSMALLINT        fCType,
+        SQLSMALLINT        fSqlType,
+        SQLULEN            cbColDef,
+        SQLSMALLINT        ibScale,
+        SQLPOINTER         rgbValue,
+        SQLLEN             cbValueMax,
+        SQLLEN             *pcbValue)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLBrowseConnect(
+        SQLHDBC            hdbc,
+        _In_reads_(cchConnStrIn)
+        SQLCHAR           *szConnStrIn,
+        SQLSMALLINT        cchConnStrIn,
+        _Out_writes_opt_(cchConnStrOutMax)
+        SQLCHAR           *szConnStrOut,
+        SQLSMALLINT        cchConnStrOutMax,
+        _Out_opt_
+        SQLSMALLINT       *pcchConnStrOut)
+    {
+        return SQL_SUCCESS;
+    }
 }

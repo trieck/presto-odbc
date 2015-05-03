@@ -31,14 +31,43 @@ extern "C" {
         SQLLEN             cbValueMax,
         SQLLEN             *pcbValue);
 
-    PRESTOODBC_API SQLRETURN SQL_API SQLBrowseConnect(
+    PRESTOODBC_API SQLRETURN SQL_API SQLBrowseConnectW(
         SQLHDBC            hdbc,
         _In_reads_(cchConnStrIn)
-        SQLCHAR           *szConnStrIn,
+        SQLWCHAR           *szConnStrIn,
         SQLSMALLINT        cchConnStrIn,
         _Out_writes_opt_(cchConnStrOutMax)
-        SQLCHAR           *szConnStrOut,
+        SQLWCHAR           *szConnStrOut,
         SQLSMALLINT        cchConnStrOutMax,
         _Out_opt_
         SQLSMALLINT       *pcchConnStrOut);
+
+    PRESTOODBC_API SQLRETURN  SQL_API SQLBulkOperations(
+        SQLHSTMT            StatementHandle,
+        SQLSMALLINT         Operation);
+
+    PRESTOODBC_API SQLRETURN  SQL_API SQLCancel(SQLHSTMT StatementHandle);
+
+    PRESTOODBC_API SQLRETURN  SQL_API SQLCloseCursor(SQLHSTMT StatementHandle);
+
+    PRESTOODBC_API SQLRETURN  SQL_API SQLColAttributeW(SQLHSTMT StatementHandle,
+        SQLUSMALLINT ColumnNumber, SQLUSMALLINT FieldIdentifier,
+        _Out_writes_bytes_opt_(BufferLength) SQLPOINTER CharacterAttribute, SQLSMALLINT BufferLength,
+        _Out_opt_ SQLSMALLINT *StringLength, _Out_opt_ SQLLEN *NumericAttribute);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLColumnPrivilegesW(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLWCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLWCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchTableName)
+        SQLWCHAR           *szTableName,
+        SQLSMALLINT        cchTableName,
+        _In_reads_opt_(cchColumnName)
+        SQLWCHAR           *szColumnName,
+        SQLSMALLINT        cchColumnName);
+
 }

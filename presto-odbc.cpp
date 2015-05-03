@@ -37,16 +37,65 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    PRESTOODBC_API SQLRETURN SQL_API SQLBrowseConnect(
+    PRESTOODBC_API SQLRETURN SQL_API SQLBrowseConnectW(
         SQLHDBC            hdbc,
         _In_reads_(cchConnStrIn)
-        SQLCHAR           *szConnStrIn,
+        SQLWCHAR           *szConnStrIn,
         SQLSMALLINT        cchConnStrIn,
         _Out_writes_opt_(cchConnStrOutMax)
-        SQLCHAR           *szConnStrOut,
+        SQLWCHAR           *szConnStrOut,
         SQLSMALLINT        cchConnStrOutMax,
         _Out_opt_
         SQLSMALLINT       *pcchConnStrOut)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN  SQL_API SQLBulkOperations(
+        SQLHSTMT            StatementHandle,
+        SQLSMALLINT         Operation)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN  SQL_API SQLCancel(SQLHSTMT StatementHandle)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN  SQL_API SQLCloseCursor(SQLHSTMT StatementHandle)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN  SQL_API SQLColAttributeW(SQLHSTMT StatementHandle,
+        SQLUSMALLINT ColumnNumber, SQLUSMALLINT FieldIdentifier,
+        _Out_writes_bytes_opt_(BufferLength) SQLPOINTER CharacterAttribute,
+        SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *StringLength,
+        _Out_opt_ SQLLEN *NumericAttribute)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLColumnPrivilegesW(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLWCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLWCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchTableName)
+        SQLWCHAR           *szTableName,
+        SQLSMALLINT        cchTableName,
+        _In_reads_opt_(cchColumnName)
+        SQLWCHAR           *szColumnName,
+        SQLSMALLINT        cchColumnName)
     {
         return SQL_SUCCESS;
     }

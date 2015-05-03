@@ -70,4 +70,9 @@ extern "C" {
         SQLWCHAR           *szColumnName,
         SQLSMALLINT        cchColumnName);
 
+    PRESTOODBC_API SQLRETURN SQL_API SQLFreeHandle(SQLSMALLINT HandleType, SQLHANDLE Handle);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
+        SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
+        SQLINTEGER StringLength);
 }

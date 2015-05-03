@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "presto-odbc.h"
+#include "Connection.h"
 #include <sql.h>
 
 extern "C" {
@@ -8,6 +9,20 @@ extern "C" {
     PRESTOODBC_API SQLRETURN SQL_API SQLAllocHandle(SQLSMALLINT HandleType,
         SQLHANDLE InputHandle, _Out_ SQLHANDLE *OutputHandle)
     {
+        ATLVERIFY(OutputHandle != NULL);
+
+        switch (HandleType) {
+        case SQL_HANDLE_ENV:
+            *OutputHandle = static_cast<SQLHANDLE>(new Environment);
+            break;
+        case SQL_HANDLE_DBC:
+            *OutputHandle = static_cast<SQLHANDLE>(
+                new Connection(static_cast<LPENVIRONMENT>(InputHandle))
+                );
+            break;
+        default:
+            return SQL_ERROR;
+        }
         return SQL_SUCCESS;
     }
 
@@ -52,7 +67,7 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    PRESTOODBC_API SQLRETURN  SQL_API SQLBulkOperations(
+    PRESTOODBC_API SQLRETURN SQL_API SQLBulkOperations(
         SQLHSTMT            StatementHandle,
         SQLSMALLINT         Operation)
     {
@@ -60,19 +75,19 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    PRESTOODBC_API SQLRETURN  SQL_API SQLCancel(SQLHSTMT StatementHandle)
+    PRESTOODBC_API SQLRETURN SQL_API SQLCancel(SQLHSTMT StatementHandle)
     {
         return SQL_SUCCESS;
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    PRESTOODBC_API SQLRETURN  SQL_API SQLCloseCursor(SQLHSTMT StatementHandle)
+    PRESTOODBC_API SQLRETURN SQL_API SQLCloseCursor(SQLHSTMT StatementHandle)
     {
         return SQL_SUCCESS;
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    PRESTOODBC_API SQLRETURN  SQL_API SQLColAttributeW(SQLHSTMT StatementHandle,
+    PRESTOODBC_API SQLRETURN SQL_API SQLColAttributeW(SQLHSTMT StatementHandle,
         SQLUSMALLINT ColumnNumber, SQLUSMALLINT FieldIdentifier,
         _Out_writes_bytes_opt_(BufferLength) SQLPOINTER CharacterAttribute,
         SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *StringLength,
@@ -96,6 +111,34 @@ extern "C" {
         _In_reads_opt_(cchColumnName)
         SQLWCHAR           *szColumnName,
         SQLSMALLINT        cchColumnName)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLFreeHandle(SQLSMALLINT HandleType,
+        SQLHANDLE Handle)
+    {
+        ATLVERIFY(Handle != NULL);
+
+        switch (HandleType) {
+        case SQL_HANDLE_ENV:
+            delete static_cast<LPENVIRONMENT>(Handle);
+            break;
+        case SQL_HANDLE_DBC:
+            delete static_cast<LPCONNECTION>(Handle);
+            break;
+        default:
+            return SQL_ERROR;
+        }
+
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
+        SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
+        SQLINTEGER StringLength)
     {
         return SQL_SUCCESS;
     }

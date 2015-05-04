@@ -70,7 +70,63 @@ extern "C" {
         SQLWCHAR           *szColumnName,
         SQLSMALLINT        cchColumnName);
 
+    PRESTOODBC_API SQLRETURN SQL_API SQLDisconnect(SQLHDBC ConnectionHandle);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLEndTran(SQLSMALLINT HandleType, SQLHANDLE Handle,
+        SQLSMALLINT CompletionType);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLExecDirectW(SQLHSTMT StatementHandle,
+        _In_reads_opt_(TextLength) SQLWCHAR* StatementText,
+        SQLINTEGER TextLength);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLExecute(SQLHSTMT StatementHandle);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLFetch(SQLHSTMT StatementHandle);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLFetchScroll(SQLHSTMT StatementHandle,
+        SQLSMALLINT FetchOrientation, SQLLEN FetchOffset);
+
     PRESTOODBC_API SQLRETURN SQL_API SQLFreeHandle(SQLSMALLINT HandleType, SQLHANDLE Handle);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLFreeStmt(SQLHSTMT StatementHandle, SQLUSMALLINT Option);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetConnectAttr(SQLHDBC ConnectionHandle,
+        SQLINTEGER Attribute, _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
+        SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLengthPtr);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetCursorNameW(
+        SQLHSTMT StatementHandle,
+        _Out_writes_opt_(BufferLength) SQLWCHAR *CursorName,
+        SQLSMALLINT BufferLength,
+        _Out_opt_
+        SQLSMALLINT *NameLengthPtr);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetData(SQLHSTMT StatementHandle,
+        SQLUSMALLINT ColumnNumber, SQLSMALLINT TargetType,
+        _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER TargetValue, SQLLEN BufferLength,
+        _Out_opt_ SQLLEN *StrLen_or_IndPtr);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetDescFieldW(SQLHDESC DescriptorHandle,
+        SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier,
+        _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value, SQLINTEGER BufferLength,
+        _Out_opt_ SQLINTEGER *StringLength);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetDescRecW(SQLHDESC DescriptorHandle,
+        SQLSMALLINT RecNumber, _Out_writes_opt_(BufferLength) SQLCHAR *Name,
+        SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *StringLengthPtr,
+        _Out_opt_ SQLSMALLINT *TypePtr, _Out_opt_ SQLSMALLINT *SubTypePtr,
+        _Out_opt_ SQLLEN     *LengthPtr, _Out_opt_ SQLSMALLINT *PrecisionPtr,
+        _Out_opt_ SQLSMALLINT *ScalePtr, _Out_opt_ SQLSMALLINT *NullablePtr);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetDiagFieldW(SQLSMALLINT HandleType, SQLHANDLE Handle,
+        SQLSMALLINT RecNumber, SQLSMALLINT DiagIdentifier,
+        _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER DiagInfo, SQLSMALLINT BufferLength,
+        _Out_opt_ SQLSMALLINT *StringLength);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetDiagRecW(SQLSMALLINT HandleType, SQLHANDLE Handle,
+        SQLSMALLINT RecNumber, _Out_writes_opt_(6) SQLCHAR *Sqlstate, SQLINTEGER *NativeError,
+        _Out_writes_opt_(BufferLength) SQLCHAR* MessageText, SQLSMALLINT BufferLength,
+        _Out_opt_ SQLSMALLINT *TextLength);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,

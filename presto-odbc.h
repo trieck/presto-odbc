@@ -158,6 +158,25 @@ extern "C" {
     PRESTOODBC_API SQLRETURN  SQL_API SQLNumResultCols(SQLHSTMT StatementHandle,
         _Out_ SQLSMALLINT *ColumnCount);
 
+    PRESTOODBC_API SQLRETURN SQL_API SQLParamData(SQLHSTMT StatementHandle,
+        _Out_opt_ SQLPOINTER *Value);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLPrepareW(SQLHSTMT StatementHandle,
+        _In_reads_(TextLength) SQLWCHAR* StatementText,
+        SQLINTEGER TextLength);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLPrimaryKeys(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchTableName)
+        SQLCHAR           *szTableName,
+        SQLSMALLINT        cchTableName);
+
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength);

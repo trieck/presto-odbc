@@ -309,6 +309,37 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    SQLRETURN  SQL_API SQLParamData(SQLHSTMT StatementHandle,
+        _Out_opt_ SQLPOINTER *Value)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLPrepareW(SQLHSTMT StatementHandle,
+        _In_reads_(TextLength) SQLWCHAR* StatementText,
+        SQLINTEGER TextLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLPrimaryKeys(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchTableName)
+        SQLCHAR           *szTableName,
+        SQLSMALLINT        cchTableName)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength)

@@ -112,7 +112,7 @@ extern "C" {
         _Out_opt_ SQLINTEGER *StringLength);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLGetDescRecW(SQLHDESC DescriptorHandle,
-        SQLSMALLINT RecNumber, _Out_writes_opt_(BufferLength) SQLCHAR *Name,
+        SQLSMALLINT RecNumber, _Out_writes_opt_(BufferLength) SQLWCHAR *Name,
         SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *StringLengthPtr,
         _Out_opt_ SQLSMALLINT *TypePtr, _Out_opt_ SQLSMALLINT *SubTypePtr,
         _Out_opt_ SQLLEN     *LengthPtr, _Out_opt_ SQLSMALLINT *PrecisionPtr,
@@ -124,8 +124,8 @@ extern "C" {
         _Out_opt_ SQLSMALLINT *StringLength);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLGetDiagRecW(SQLSMALLINT HandleType, SQLHANDLE Handle,
-        SQLSMALLINT RecNumber, _Out_writes_opt_(6) SQLCHAR *Sqlstate, SQLINTEGER *NativeError,
-        _Out_writes_opt_(BufferLength) SQLCHAR* MessageText, SQLSMALLINT BufferLength,
+        SQLSMALLINT RecNumber, _Out_writes_opt_(6) SQLWCHAR *Sqlstate, SQLINTEGER *NativeError,
+        _Out_writes_opt_(BufferLength) SQLWCHAR* MessageText, SQLSMALLINT BufferLength,
         _Out_opt_ SQLSMALLINT *TextLength);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLGetEnvAttr(SQLHENV EnvironmentHandle,

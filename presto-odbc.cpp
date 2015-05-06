@@ -340,9 +340,152 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLProcedureColumnsW(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLWCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLWCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchProcName)
+        SQLWCHAR           *szProcName,
+        SQLSMALLINT        cchProcName,
+        _In_reads_opt_(cchColumnName)
+        SQLWCHAR           *szColumnName,
+        SQLSMALLINT        cchColumnName)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLProceduresW(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLWCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLWCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchProcName)
+        SQLWCHAR           *szProcName,
+        SQLSMALLINT        cchProcName)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLPutData(SQLHSTMT StatementHandle,
+        _In_reads_(_Inexpressible_(StrLen_or_Ind)) SQLPOINTER Data,
+        SQLLEN StrLen_or_Ind)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN  SQL_API SQLRowCount(_In_ SQLHSTMT StatementHandle,
+        _Out_ SQLLEN* RowCount)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetConnectAttrW(SQLHDBC ConnectionHandle,
+        SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
+        SQLINTEGER StringLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetCursorNameW(SQLHSTMT StatementHandle,
+        _In_reads_(NameLength) SQLCHAR* CursorName, SQLSMALLINT NameLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetDescRec(SQLHDESC DescriptorHandle,
+        SQLSMALLINT RecNumber, SQLSMALLINT Type,
+        SQLSMALLINT SubType, SQLLEN Length,
+        SQLSMALLINT Precision, SQLSMALLINT Scale,
+        _Inout_updates_bytes_opt_(Length) SQLPOINTER Data,
+        _Inout_opt_ SQLLEN *StringLength,
+        _Inout_opt_ SQLLEN *Indicator)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetPos(
+        SQLHSTMT           hstmt,
+        SQLSETPOSIROW      irow,
+        SQLUSMALLINT       fOption,
+        SQLUSMALLINT       fLock)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetStmtAttrW(SQLHSTMT StatementHandle,
+        SQLINTEGER Attribute,
+        _In_reads_(_Inexpressible_(StringLength)) SQLPOINTER Value,
+        SQLINTEGER StringLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSpecialColumnsW(SQLHSTMT StatementHandle,
+        SQLUSMALLINT IdentifierType,
+        _In_reads_opt_(NameLength1) SQLWCHAR *CatalogName, SQLSMALLINT NameLength1,
+        _In_reads_opt_(NameLength2) SQLWCHAR *SchemaName, SQLSMALLINT NameLength2,
+        _In_reads_opt_(NameLength3) SQLWCHAR *TableName, SQLSMALLINT NameLength3,
+        SQLUSMALLINT Scope, SQLUSMALLINT Nullable)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLStatisticsW(SQLHSTMT StatementHandle,
+        _In_reads_opt_(NameLength1) SQLWCHAR *CatalogName, SQLSMALLINT NameLength1,
+        _In_reads_opt_(NameLength2) SQLWCHAR *SchemaName, SQLSMALLINT NameLength2,
+        _In_reads_opt_(NameLength3) SQLWCHAR *TableName, SQLSMALLINT NameLength3,
+        SQLUSMALLINT Unique, SQLUSMALLINT Reserved)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLTablePrivilegesW(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchCatalogName)
+        SQLWCHAR           *szCatalogName,
+        SQLSMALLINT        cchCatalogName,
+        _In_reads_opt_(cchSchemaName)
+        SQLWCHAR           *szSchemaName,
+        SQLSMALLINT        cchSchemaName,
+        _In_reads_opt_(cchTableName)
+        SQLWCHAR           *szTableName,
+        SQLSMALLINT        cchTableName)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLTablesW(SQLHSTMT StatementHandle,
+        _In_reads_opt_(NameLength1) SQLWCHAR *CatalogName, SQLSMALLINT NameLength1,
+        _In_reads_opt_(NameLength2) SQLWCHAR *SchemaName, SQLSMALLINT NameLength2,
+        _In_reads_opt_(NameLength3) SQLWCHAR *TableName, SQLSMALLINT NameLength3,
+        _In_reads_opt_(NameLength4) SQLWCHAR *TableType, SQLSMALLINT NameLength4)
     {
         return SQL_SUCCESS;
     }

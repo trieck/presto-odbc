@@ -165,16 +165,16 @@ extern "C" {
         _In_reads_(TextLength) SQLWCHAR* StatementText,
         SQLINTEGER TextLength);
 
-    PRESTOODBC_API SQLRETURN SQL_API SQLPrimaryKeys(
+    PRESTOODBC_API SQLRETURN SQL_API SQLPrimaryKeysW(
         SQLHSTMT           hstmt,
         _In_reads_opt_(cchCatalogName)
-        SQLCHAR           *szCatalogName,
+        SQLWCHAR           *szCatalogName,
         SQLSMALLINT        cchCatalogName,
         _In_reads_opt_(cchSchemaName)
-        SQLCHAR           *szSchemaName,
+        SQLWCHAR           *szSchemaName,
         SQLSMALLINT        cchSchemaName,
         _In_reads_opt_(cchTableName)
-        SQLCHAR           *szTableName,
+        SQLWCHAR           *szTableName,
         SQLSMALLINT        cchTableName);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,

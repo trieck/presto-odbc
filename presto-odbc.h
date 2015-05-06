@@ -128,6 +128,36 @@ extern "C" {
         _Out_writes_opt_(BufferLength) SQLCHAR* MessageText, SQLSMALLINT BufferLength,
         _Out_opt_ SQLSMALLINT *TextLength);
 
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetEnvAttr(SQLHENV EnvironmentHandle,
+        SQLINTEGER Attribute, _Out_writes_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
+        SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetStmtAttrW(SQLHSTMT StatementHandle,
+        SQLINTEGER Attribute, _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
+        SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetTypeInfoW(SQLHSTMT StatementHandle,
+        SQLSMALLINT DataType);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLMoreResults(SQLHSTMT hstmt);
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLNativeSqlW(
+        SQLHDBC            hdbc,
+        _In_reads_(cchSqlStrIn) SQLWCHAR* szSqlStrIn,
+        SQLINTEGER  cchSqlStrIn,
+        _Out_writes_opt_(cchSqlStrMax) SQLWCHAR* szSqlStr,
+        SQLINTEGER         cchSqlStrMax,
+        SQLINTEGER        *pcbSqlStr
+        );
+
+    PRESTOODBC_API SQLRETURN SQL_API SQLNumParams(
+        SQLHSTMT           hstmt,
+        _Out_opt_
+        SQLSMALLINT       *pcpar);
+
+    PRESTOODBC_API SQLRETURN  SQL_API SQLNumResultCols(SQLHSTMT StatementHandle,
+        _Out_ SQLSMALLINT *ColumnCount);
+
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength);

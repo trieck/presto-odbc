@@ -251,6 +251,64 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetEnvAttr(SQLHENV EnvironmentHandle,
+        SQLINTEGER Attribute,
+        _Out_writes_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
+        SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetStmtAttrW(SQLHSTMT StatementHandle,
+        SQLINTEGER Attribute,
+        _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
+        SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetTypeInfoW(SQLHSTMT StatementHandle,
+        SQLSMALLINT DataType)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLMoreResults(SQLHSTMT hstmt)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLNativeSqlW(
+        SQLHDBC            hdbc,
+        _In_reads_(cchSqlStrIn) SQLWCHAR* szSqlStrIn,
+        SQLINTEGER  cchSqlStrIn,
+        _Out_writes_opt_(cchSqlStrMax) SQLWCHAR* szSqlStr,
+        SQLINTEGER         cchSqlStrMax,
+        SQLINTEGER        *pcbSqlStr
+        )
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLNumParams(SQLHSTMT hstmt,
+        _Out_opt_ SQLSMALLINT *pcpar)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN  SQL_API SQLNumResultCols(SQLHSTMT StatementHandle,
+        _Out_ SQLSMALLINT *ColumnCount)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLSetEnvAttr(SQLHENV EnvironmentHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength)

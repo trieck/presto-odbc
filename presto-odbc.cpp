@@ -2,6 +2,7 @@
 #include "presto-odbc.h"
 #include "Connection.h"
 #include <sql.h>
+#include "util.h"
 
 extern "C" {
 
@@ -116,9 +117,88 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLColumnsW(SQLHSTMT StatementHandle,
+        _In_reads_opt_(NameLength1) SQLWCHAR *CatalogName, SQLSMALLINT NameLength1,
+        _In_reads_opt_(NameLength2) SQLWCHAR *SchemaName, SQLSMALLINT NameLength2,
+        _In_reads_opt_(NameLength3) SQLWCHAR *TableName, SQLSMALLINT NameLength3,
+        _In_reads_opt_(NameLength4) SQLWCHAR *ColumnName, SQLSMALLINT NameLength4)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLConnectW(SQLHDBC ConnectionHandle,
+        _In_reads_(NameLength1) SQLWCHAR *ServerName, SQLSMALLINT NameLength1,
+        _In_reads_(NameLength2) SQLWCHAR *UserName, SQLSMALLINT NameLength2,
+        _In_reads_(NameLength3) SQLWCHAR *Authentication, SQLSMALLINT NameLength3)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLCopyDesc(SQLHDESC SourceDescHandle,
+        SQLHDESC TargetDescHandle)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLDescribeColW(SQLHSTMT StatementHandle,
+        SQLUSMALLINT ColumnNumber, _Out_writes_opt_(BufferLength) SQLWCHAR *ColumnName,
+        SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *NameLength,
+        _Out_opt_ SQLSMALLINT *DataType, _Out_opt_ SQLULEN *ColumnSize,
+        _Out_opt_ SQLSMALLINT *DecimalDigits, _Out_opt_ SQLSMALLINT *Nullable)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLDescribeParam(
+        SQLHSTMT           hstmt,
+        SQLUSMALLINT       ipar,
+        _Out_opt_
+        SQLSMALLINT       *pfSqlType,
+        _Out_opt_
+        SQLULEN           *pcbParamDef,
+        _Out_opt_
+        SQLSMALLINT       *pibScale,
+        _Out_opt_
+        SQLSMALLINT       *pfNullable)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLDisconnect(SQLHDBC ConnectionHandle)
     {
         return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLDriverConnectW(
+        SQLHDBC            hdbc,
+        SQLHWND            hwnd,
+        _In_reads_(cchConnStrIn)
+        SQLWCHAR           *szConnStrIn,
+        SQLSMALLINT        cchConnStrIn,
+        _Out_writes_opt_(cchConnStrOutMax)
+        SQLWCHAR           *szConnStrOut,
+        SQLSMALLINT        cchConnStrOutMax,
+        _Out_opt_
+        SQLSMALLINT       *pcchConnStrOut,
+        SQLUSMALLINT       fDriverCompletion)
+    {
+        LPCONNECTION conn = static_cast<LPCONNECTION>(hdbc);
+
+        wstring strConn = makeString(szConnStrIn, cchConnStrIn);
+        stringmap map = Connection::parseConnectionString(strConn);
+
+        if (szConnStrOut != NULL)
+            *szConnStrOut = L'\0';
+
+        *pcchConnStrOut = 0;
+
+        return SQL_ERROR;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -151,6 +231,31 @@ extern "C" {
     ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLFetchScroll(SQLHSTMT StatementHandle,
         SQLSMALLINT FetchOrientation, SQLLEN FetchOffset)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLForeignKeysW(
+        SQLHSTMT           hstmt,
+        _In_reads_opt_(cchPkCatalogName)
+        SQLWCHAR           *szPkCatalogName,
+        SQLSMALLINT        cchPkCatalogName,
+        _In_reads_opt_(cchPkSchemaName)
+        SQLWCHAR           *szPkSchemaName,
+        SQLSMALLINT        cchPkSchemaName,
+        _In_reads_opt_(cchPkTableName)
+        SQLWCHAR           *szPkTableName,
+        SQLSMALLINT        cchPkTableName,
+        _In_reads_opt_(cchFkCatalogName)
+        SQLWCHAR           *szFkCatalogName,
+        SQLSMALLINT        cchFkCatalogName,
+        _In_reads_opt_(cchFkSchemaName)
+        SQLWCHAR           *szFkSchemaName,
+        SQLSMALLINT        cchFkSchemaName,
+        _In_reads_opt_(cchFkTableName)
+        SQLWCHAR           *szFkTableName,
+        SQLSMALLINT        cchFkTableName)
     {
         return SQL_SUCCESS;
     }
@@ -247,7 +352,7 @@ extern "C" {
         _Out_writes_opt_(BufferLength) SQLWCHAR* MessageText,
         SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *TextLength)
     {
-        return SQL_SUCCESS;
+        return SQL_NO_DATA;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -400,6 +505,15 @@ extern "C" {
     ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLSetCursorNameW(SQLHSTMT StatementHandle,
         _In_reads_(NameLength) SQLCHAR* CursorName, SQLSMALLINT NameLength)
+    {
+        return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLSetDescFieldW(SQLHDESC DescriptorHandle,
+        SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier,
+        _In_reads_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
+        SQLINTEGER BufferLength)
     {
         return SQL_SUCCESS;
     }

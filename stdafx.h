@@ -15,3 +15,9 @@
 #include <atlbase.h>
 #include <atlstr.h>
 #include <sqltypes.h>
+
+#include <map>
+#include <string>
+
+typedef std::basic_string<wchar_t> wstring;
+typedef std::map<wstring, wstring> stringmap;

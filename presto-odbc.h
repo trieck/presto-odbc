@@ -156,7 +156,7 @@ extern "C" {
 
     PRESTOODBC_API SQLRETURN SQL_API SQLFreeStmt(SQLHSTMT StatementHandle, SQLUSMALLINT Option);
 
-    PRESTOODBC_API SQLRETURN SQL_API SQLGetConnectAttr(SQLHDBC ConnectionHandle,
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetConnectAttrW(SQLHDBC ConnectionHandle,
         SQLINTEGER Attribute, _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
         SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLengthPtr);
 
@@ -281,7 +281,7 @@ extern "C" {
         SQLINTEGER StringLength);
     
     PRESTOODBC_API SQLRETURN SQL_API SQLSetCursorNameW(SQLHSTMT StatementHandle,
-        _In_reads_(NameLength) SQLCHAR* CursorName, SQLSMALLINT NameLength);
+        _In_reads_(NameLength) SQLWCHAR* CursorName, SQLSMALLINT NameLength);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLSetDescFieldW(SQLHDESC DescriptorHandle,
         SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier,

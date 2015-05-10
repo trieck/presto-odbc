@@ -54,3 +54,18 @@ stringmap Connection::parseConnectionString(const wstring &input)
 
     return output;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+bool Connection::connect()
+{
+    auto response = client.query(session, L"select 1");
+       
+
+    return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Session& Connection::getSession()
+{
+    return session;
+}

@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "presto-odbc.h"
 #include "Connection.h"
-#include <sql.h>
 #include "util.h"
+#include "Session.h"
+#include <sqlext.h>
 
 extern "C" {
 
@@ -190,15 +191,41 @@ extern "C" {
     {
         LPCONNECTION conn = static_cast<LPCONNECTION>(hdbc);
 
-        wstring strConn = makeString(szConnStrIn, cchConnStrIn);
-        stringmap map = Connection::parseConnectionString(strConn);
+        auto strConn = makeString(szConnStrIn, cchConnStrIn);
+        auto map = Connection::parseConnectionString(strConn);
 
-        if (szConnStrOut != NULL)
-            *szConnStrOut = L'\0';
+        Session& session = conn->getSession();
+        session.endpoint = map[L"ENDPOINT"];
+        if (session.endpoint.empty()) {
+            return SQL_ERROR;   // no endpoint
+        }
 
-        *pcchConnStrOut = 0;
+        session.catalog = map[L"PRESTOCATALOG"];
+        if (session.catalog.empty()) {
+            return SQL_ERROR;   // no catalog
+        }
 
-        return SQL_ERROR;
+        session.schema = map[L"PRESTOSCHEMA"];
+        if (session.schema.empty()) {
+            return SQL_ERROR;   // no schema
+        }
+
+        session.user = map[L"USERNAME"];
+
+        if (!conn->connect()) {
+            return SQL_ERROR;   // can't connect
+        }
+
+        if (szConnStrOut != NULL) {
+            auto inlen = cchConnStrIn == SQL_NTS ?
+                wcslen(szConnStrIn) : cchConnStrIn;
+            auto len = min(cchConnStrOutMax, inlen);
+            wcsncpy(szConnStrOut, szConnStrIn, len);
+            szConnStrOut[len] = L'\0';
+            *pcchConnStrOut = (SQLSMALLINT)len;
+        }
+
+        return SQL_SUCCESS;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -288,7 +315,7 @@ extern "C" {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    PRESTOODBC_API SQLRETURN SQL_API SQLGetConnectAttr(SQLHDBC ConnectionHandle,
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetConnectAttrW(SQLHDBC ConnectionHandle,
         SQLINTEGER Attribute, _Out_writes_opt_(_Inexpressible_(BufferLength))
         SQLPOINTER Value, SQLINTEGER BufferLength,
         _Out_opt_ SQLINTEGER *StringLengthPtr)
@@ -499,12 +526,23 @@ extern "C" {
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength)
     {
+        LPCONNECTION conn = static_cast<LPCONNECTION>(ConnectionHandle);
+        Session& session = conn->getSession();
+
+        switch (Attribute) {
+        case SQL_ATTR_LOGIN_TIMEOUT:
+            session.timeout = reinterpret_cast<SQLLEN>(Value);
+            break;
+        default:
+            break;
+        }
+
         return SQL_SUCCESS;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLSetCursorNameW(SQLHSTMT StatementHandle,
-        _In_reads_(NameLength) SQLCHAR* CursorName, SQLSMALLINT NameLength)
+        _In_reads_(NameLength) SQLWCHAR* CursorName, SQLSMALLINT NameLength)
     {
         return SQL_SUCCESS;
     }

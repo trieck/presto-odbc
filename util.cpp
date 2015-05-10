@@ -26,3 +26,18 @@ wstring upper(const wstring & input)
 
     return output;
 }
+
+/////////////////////////////////////////////////////////////////////////////
+wstringvec split(const wstring &input, wchar_t delim) 
+{
+    wstringvec output;
+
+    wstringstream ss(input);
+
+    wstring item;
+    while (std::getline(ss, item, delim)) {
+        output.push_back(item);
+    }
+
+    return output;
+}

@@ -3,3 +3,7 @@ Debug
 *.opensdf
 *.sdf
 *.suo
+*.obj
+*.tlog
+Release
+*.user

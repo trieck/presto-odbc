@@ -24,12 +24,12 @@ wstring PrestoClient::makeHeaders(const Session& session)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-wstring PrestoClient::query(const Session& session, const wstring & query)
+bool PrestoClient::query(const Session& session, const wstring & query)
 {
     CAtlNavigateData data;
     data.SetMethod(L"POST");
 
-    wstring headers = makeHeaders(session);
+    auto headers = makeHeaders(session);
     data.SetExtraHeaders(headers.c_str());
     data.SetSocketTimeout(DWORD(session.timeout * 1000));
 
@@ -39,7 +39,10 @@ wstring PrestoClient::query(const Session& session, const wstring & query)
     wstringstream url;
     url << L"http://" << session.endpoint << L"/v1/statement";
 
-    bool response = m_client.Navigate(url.str().c_str(), &data);
+    auto response = m_client.Navigate(url.str().c_str(), &data);
+    if (response) {
+        m_results.setResults(m_client.GetBody(), m_client.GetBodyLength());
+    }
 
-    return wstring();
+    return response;
 }

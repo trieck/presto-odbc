@@ -189,12 +189,11 @@ extern "C" {
         SQLSMALLINT       *pcchConnStrOut,
         SQLUSMALLINT       fDriverCompletion)
     {
-        LPCONNECTION conn = static_cast<LPCONNECTION>(hdbc);
-
+        auto conn = static_cast<LPCONNECTION>(hdbc);
         auto strConn = makeString(szConnStrIn, cchConnStrIn);
         auto map = Connection::parseConnectionString(strConn);
 
-        Session& session = conn->getSession();
+        auto& session = conn->getSession();
         session.endpoint = map[L"ENDPOINT"];
         if (session.endpoint.empty()) {
             return SQL_ERROR;   // no endpoint
@@ -526,8 +525,8 @@ extern "C" {
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength)
     {
-        LPCONNECTION conn = static_cast<LPCONNECTION>(ConnectionHandle);
-        Session& session = conn->getSession();
+        auto conn = static_cast<LPCONNECTION>(ConnectionHandle);
+        auto& session = conn->getSession();
 
         switch (Attribute) {
         case SQL_ATTR_LOGIN_TIMEOUT:

@@ -39,6 +39,9 @@
     <ClInclude Include="PrestoClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QueryResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PrestoClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

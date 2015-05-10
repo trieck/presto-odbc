@@ -2,6 +2,7 @@
 
 #include <atlhttp.h>
 #include "Session.h"
+#include "QueryResults.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 class PrestoClient
@@ -9,9 +10,10 @@ class PrestoClient
 public:
     PrestoClient();
     ~PrestoClient();
-    wstring query(const Session& session, const wstring & str);
+    bool query(const Session& session, const wstring & str);
 private:
     static wstring makeHeaders(const Session& session);
     CAtlHttpClient m_client;
+    QueryResults m_results;
 };
 

@@ -11,6 +11,7 @@ public:
 
     void setResults(const BYTE* pResponse, DWORD dwResponseLength);
 private:
-    rapidjson::Document m_doc;
+    wstring m_id, m_infoURI, m_partialCancelURI, m_nextURI;
+    rapidjson::Value m_data;
 };
 

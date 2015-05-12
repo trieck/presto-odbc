@@ -190,7 +190,7 @@ extern "C" {
         SQLUSMALLINT       fDriverCompletion)
     {
         auto conn = static_cast<LPCONNECTION>(hdbc);
-        auto strConn = makeString(szConnStrIn, cchConnStrIn);
+        auto strConn = ODBCString(szConnStrIn, cchConnStrIn);
         auto map = Connection::parseConnectionString(strConn);
 
         auto& session = conn->getSession();
@@ -388,6 +388,28 @@ extern "C" {
         SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength)
     {
         return SQL_SUCCESS;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetInfoW(SQLHDBC hdbc,
+        SQLUSMALLINT fInfoType,
+        _Out_writes_bytes_opt_(cbInfoValueMax) SQLPOINTER rgbInfoValue,
+        SQLSMALLINT cbInfoValueMax,
+        _Out_opt_ SQLSMALLINT* pcbInfoValue)
+    {
+        auto conn = static_cast<LPCONNECTION>(hdbc);
+
+        switch (fInfoType) {
+        case SQL_MAX_DRIVER_CONNECTIONS:
+        case SQL_MAX_CONCURRENT_ACTIVITIES:
+            *(SQLUSMALLINT*)rgbInfoValue = 1;
+            break;
+        case SQL_DATA_SOURCE_NAME:
+            break;
+        default:
+            break;
+        }
+        return SQL_ERROR;
     }
 
     ///////////////////////////////////////////////////////////////////////////

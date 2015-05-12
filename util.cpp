@@ -3,7 +3,7 @@
 #include <sql.h>
 
 ///////////////////////////////////////////////////////////////////////////////
-wstring makeString(SQLWCHAR* szStr, SQLSMALLINT length)
+wstring ODBCString(SQLWCHAR* szStr, SQLSMALLINT length)
 {
     if (length == SQL_NTS) {
         length = (SQLSMALLINT)wcslen(szStr);
@@ -40,4 +40,10 @@ wstringvec split(const wstring &input, wchar_t delim)
     }
 
     return output;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+wstring UTF8toWide(LPCSTR pUtf8String)
+{
+    return (LPCWSTR)CA2W(pUtf8String, CP_UTF8);
 }

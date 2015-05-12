@@ -1,8 +1,8 @@
 #pragma once
 
-#include <atlhttp.h>
 #include "Session.h"
 #include "QueryResults.h"
+#include "AtlHttpClient2.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 class PrestoClient
@@ -13,7 +13,7 @@ public:
     bool query(const Session& session, const wstring & str);
 private:
     static wstring makeHeaders(const Session& session);
-    CAtlHttpClient m_client;
+    CAtlHttpClient2 m_client;
     QueryResults m_results;
 };
 

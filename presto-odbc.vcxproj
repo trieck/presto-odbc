@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AtlHttpClient2.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="presto-odbc.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AtlHttpClient2.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

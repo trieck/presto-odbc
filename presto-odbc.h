@@ -75,7 +75,7 @@ extern "C" {
         _In_reads_opt_(NameLength2) SQLWCHAR *SchemaName, SQLSMALLINT NameLength2,
         _In_reads_opt_(NameLength3) SQLWCHAR *TableName, SQLSMALLINT NameLength3,
         _In_reads_opt_(NameLength4) SQLWCHAR *ColumnName, SQLSMALLINT NameLength4);
-    
+
     PRESTOODBC_API SQLRETURN SQL_API SQLConnectW(SQLHDBC ConnectionHandle,
         _In_reads_(NameLength1) SQLWCHAR *ServerName, SQLSMALLINT NameLength1,
         _In_reads_(NameLength2) SQLWCHAR *UserName, SQLSMALLINT NameLength2,
@@ -89,7 +89,7 @@ extern "C" {
         SQLSMALLINT BufferLength, _Out_opt_ SQLSMALLINT *NameLength,
         _Out_opt_ SQLSMALLINT *DataType, _Out_opt_ SQLULEN *ColumnSize,
         _Out_opt_ SQLSMALLINT *DecimalDigits, _Out_opt_ SQLSMALLINT *Nullable);
-    
+
     PRESTOODBC_API SQLRETURN SQL_API SQLDescribeParam(
         SQLHSTMT           hstmt,
         SQLUSMALLINT       ipar,
@@ -198,6 +198,14 @@ extern "C" {
         SQLINTEGER Attribute, _Out_writes_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
         SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength);
 
+    PRESTOODBC_API SQLRETURN SQL_API SQLGetInfoW(
+        SQLHDBC                     hdbc,
+        SQLUSMALLINT                fInfoType,
+        _Out_writes_bytes_opt_(cbInfoValueMax) SQLPOINTER rgbInfoValue,
+        SQLSMALLINT        cbInfoValueMax,
+        _Out_opt_
+        SQLSMALLINT*                pcbInfoValue);
+    
     PRESTOODBC_API SQLRETURN SQL_API SQLGetStmtAttrW(SQLHSTMT StatementHandle,
         SQLINTEGER Attribute, _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
         SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength);
@@ -272,14 +280,14 @@ extern "C" {
 
     PRESTOODBC_API SQLRETURN SQL_API SQLPutData(SQLHSTMT StatementHandle,
         _In_reads_(_Inexpressible_(StrLen_or_Ind)) SQLPOINTER Data, SQLLEN StrLen_or_Ind);
-    
+
     PRESTOODBC_API SQLRETURN  SQL_API SQLRowCount(_In_ SQLHSTMT StatementHandle,
         _Out_ SQLLEN* RowCount);
 
     PRESTOODBC_API SQLRETURN SQL_API SQLSetConnectAttrW(SQLHDBC ConnectionHandle,
         SQLINTEGER Attribute, _In_reads_bytes_opt_(StringLength) SQLPOINTER Value,
         SQLINTEGER StringLength);
-    
+
     PRESTOODBC_API SQLRETURN SQL_API SQLSetCursorNameW(SQLHSTMT StatementHandle,
         _In_reads_(NameLength) SQLWCHAR* CursorName, SQLSMALLINT NameLength);
 

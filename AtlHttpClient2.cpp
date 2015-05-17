@@ -100,7 +100,7 @@ throw(...)
     if (dwSent == dwAvailable)
     {
         // Read the response
-        if (RR_OK == ReadHttpResponse())
+        if (RR_OK == ReadHttpResponse2())
         {
             // if navigation isn't complete, try to complete
             // it based on the status code and flags
@@ -200,14 +200,123 @@ bool CAtlHttpClient2::BuildRequest2(/*out*/CString *pstrRequest,
             strRequest += strHost;
             strRequest += ATL_HTTP_USERAGENT;
         }
+
         strRequest += _T("\r\n");
-
-
         *pstrRequest = strRequest;
+
         return true;
     }
         _ATLCATCHALL()
     {
         return false;
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+CAtlHttpClient2::HTTP_RESPONSE_READ_STATUS CAtlHttpClient2::ReadHttpResponse2()
+{
+    // Read until we at least have the response headers
+    HTTP_RESPONSE_READ_STATUS result = RR_OK;
+    readstate state = rs_init;
+    unsigned char *pBodyBegin = NULL;
+    unsigned char *pHeaderBegin = NULL;
+    m_current.Empty();
+    m_pCurrent = NULL;
+    m_LastResponseParseError = RR_OK;
+
+    while (state != rs_complete)
+    {
+        switch (state)
+        {
+        case rs_init:
+            m_HeaderMap.RemoveAll();
+            m_nStatus = ATL_INVALID_STATUS;
+            m_dwHeaderLen = 0;
+            m_dwBodyLen = 0;
+            state = rs_readheader;
+            // fall through
+
+        case rs_readheader:
+
+            // read from the socket until we have a complete set of headers.
+            pBodyBegin = FindHeaderEnd(&pHeaderBegin);
+            if (!pBodyBegin)
+            {
+                if (!ReadSocket())
+                {
+                    // Either reading from the socket failed, or there
+                    // was not data to read. Set the nav status to error
+                    // and change the state to complete.
+                    state = rs_complete;
+                    result = RR_READSOCKET_FAILED;
+                    break;
+                }
+                else
+                    break; // loop back and FindHeaderEnd again.
+            }
+            // we have a complete set of headers
+            m_dwHeaderLen = (DWORD)(pBodyBegin - pHeaderBegin);
+            m_dwHeaderStart = (DWORD)(pHeaderBegin - (BYTE*)(LPCSTR)m_current);
+            // fall through
+            state = rs_scanheader;
+
+        case rs_scanheader:
+            // set m_nStatus and check for valid status
+            ParseStatusLine(pHeaderBegin);
+            // failed to set m_nStatus;
+            if (m_nStatus == ATL_INVALID_STATUS)
+            {
+                state = rs_complete;
+                result = RR_STATUS_INVALID;
+                break;
+            }
+
+            else if (m_nStatus == 100) // continue
+            {
+                state = rs_init;
+                break;
+            }
+
+            // crack all the headers and put them into a header map. We've already
+            // done the check to make sure we have a complete set of headers in 
+            // rs_readheader above
+            if (ATL_HEADER_PARSE_COMPLETE != CrackResponseHeader((LPCSTR)pHeaderBegin,
+                (LPCSTR*)&pBodyBegin))
+            {
+                // something bad happened while parsing the headers!
+                state = rs_complete;
+                result = RR_PARSEHEADERS_FAILED;
+                break;
+            }
+            state = rs_readbody;
+            // fall through
+
+        case rs_readbody:
+            // headers are parsed and cracked, we're ready to read the rest
+            // of the response. 
+            if (IsMsgBodyChunked())
+            {
+                if (!ReadChunkedBody())
+                {
+                    result = RR_READCHUNKEDBODY_FAILED;
+                    state = rs_complete;
+                    break;
+                }
+            }
+            else if (m_nStatus != 204 /* no content */)
+            {
+                if (!ReadBody(GetContentLength(), m_current.GetLength() - (m_dwHeaderStart + m_dwHeaderLen)))
+                    result = RR_READBODY_FAILED;
+            }
+            state = rs_complete;
+            //fall through
+
+        case rs_complete:
+            // clean up the connection if the server requested a close;
+            DisconnectIfRequired();
+            break;
+        }
+    }
+    m_LastResponseParseError = result;
+    return result;
 }

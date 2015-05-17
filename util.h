@@ -1,7 +1,11 @@
 #pragma once
 
 ///////////////////////////////////////////////////////////////////////////////
-wstring ODBCString(SQLWCHAR* szStr, SQLSMALLINT length);
-wstring upper(const wstring &input);
+wstring modulename();
+HINSTANCE modulehandle();
 wstringvec split(const wstring &input, wchar_t delim);
-wstring UTF8toWide(LPCSTR pUtf8String);
+wstring upper(const wstring &input);
+wstring ODBCString(SQLWCHAR* szStr, SQLSMALLINT length);
+wstring UTF8ToWide(LPCSTR pUtf8String);
+CStringA WideToUTF8(LPCWSTR pWideString);
+///////////////////////////////////////////////////////////////////////////////

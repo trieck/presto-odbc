@@ -18,6 +18,7 @@
 #include <stdint.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <sstream>
 #include <vector>

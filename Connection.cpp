@@ -58,7 +58,8 @@ stringmap Connection::parseConnectionString(const wstring &input)
 ///////////////////////////////////////////////////////////////////////////////
 bool Connection::connect()
 {
-    return client.query(session, L"select 1");
+    StatementPtr stmt = client.query(session, L"select 1");
+    return stmt->succeeded();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

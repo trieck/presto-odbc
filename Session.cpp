@@ -25,6 +25,7 @@ Session& Session::operator =(const Session &rhs)
         user = rhs.user;
         schema = rhs.schema;
         catalog = rhs.catalog;
+        timeout = rhs.timeout;
     }
 
     return *this;

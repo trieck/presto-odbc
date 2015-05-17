@@ -3,6 +3,7 @@
 #include "Connection.h"
 #include "util.h"
 #include "Session.h"
+#include "OutputBuffer.h"
 #include <sqlext.h>
 
 extern "C" {
@@ -398,18 +399,82 @@ extern "C" {
         _Out_opt_ SQLSMALLINT* pcbInfoValue)
     {
         auto conn = static_cast<LPCONNECTION>(hdbc);
+        auto buffer = OutputBuffer(rgbInfoValue, cbInfoValueMax, pcbInfoValue);
 
         switch (fInfoType) {
+        case SQL_CURSOR_COMMIT_BEHAVIOR:
+        case SQL_CURSOR_ROLLBACK_BEHAVIOR:
+            *(SQLUSMALLINT*)rgbInfoValue = SQL_CB_DELETE;
+            break;
+        case SQL_GETDATA_EXTENSIONS:
+            *(SQLUINTEGER*)rgbInfoValue = SQL_GD_ANY_ORDER;
+            break;
+        case SQL_DRIVER_NAME:
+            buffer.copy(modulename().c_str());
+            break;
         case SQL_MAX_DRIVER_CONNECTIONS:
         case SQL_MAX_CONCURRENT_ACTIVITIES:
             *(SQLUSMALLINT*)rgbInfoValue = 1;
             break;
+        case SQL_ODBC_API_CONFORMANCE:
+            *(SQLSMALLINT*)rgbInfoValue = SQL_OAC_LEVEL1;
+            break;
+        case SQL_ODBC_SQL_CONFORMANCE:
+            *(SQLSMALLINT*)rgbInfoValue = SQL_OSC_MINIMUM;
+            break;
         case SQL_DATA_SOURCE_NAME:
+            buffer.copy(L"");
             break;
+        case SQL_POS_OPERATIONS:
+        case SQL_POSITIONED_STATEMENTS:
+            *(SQLINTEGER*)rgbInfoValue = 0;
+            break;
+        case SQL_TRANSACTION_CAPABLE:
+            *(SQLUSMALLINT*)rgbInfoValue = SQL_TC_NONE;
+            break;
+        case SQL_DATA_SOURCE_READ_ONLY:
+            buffer.copy(L"Y");
+            break;
+        case SQL_IDENTIFIER_QUOTE_CHAR:
+            buffer.copy(L"\"");
+            break;
+        case SQL_DRIVER_ODBC_VER:
+            buffer.copy(L"03.51");
+            break;
+        case SQL_DRIVER_HDBC:
+        case SQL_DRIVER_HENV:
+        case SQL_DRIVER_HSTMT:
+        case SQL_DRIVER_HLIB:
+        case SQL_DRIVER_HDESC:
+            break;  // driver manager implements
+        case SQL_DBMS_NAME:
+            buffer.copy(L"Presto");
+            break;
+        case SQL_DBMS_VER:
+            buffer.copy(L"00.95.0000");
+            break;
+        case SQL_DRIVER_VER:
+            buffer.copy(L"00.01.0000");
+            break;
+        case SQL_CATALOG_NAME_SEPARATOR:
+            buffer.copy(L".");
+            break;
+        case SQL_CONVERT_FUNCTIONS:
+        case SQL_NUMERIC_FUNCTIONS:
+        case SQL_STRING_FUNCTIONS:
+        case SQL_SYSTEM_FUNCTIONS:
+            *(SQLUINTEGER*)rgbInfoValue = 0;
+            break;
+        case SQL_MAXIMUM_COLUMN_NAME_LENGTH:
+        case SQL_MAXIMUM_CURSOR_NAME_LENGTH:
+        case SQL_MAXIMUM_SCHEMA_NAME_LENGTH:
+        case SQL_MAXIMUM_CATALOG_NAME_LENGTH:
+        case SQL_MAX_TABLE_NAME_LEN:
+            *(SQLUSMALLINT*)rgbInfoValue = 0;
         default:
-            break;
+            return SQL_ERROR;
         }
-        return SQL_ERROR;
+        return SQL_SUCCESS;
     }
 
     ///////////////////////////////////////////////////////////////////////////

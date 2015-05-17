@@ -18,5 +18,7 @@ protected:
     bool BuildRequest2(/*out*/CString *pstrRequest,
         LPCTSTR szDataType = NULL,
         LPCTSTR szExtraHeaders = NULL) throw();
+
+    HTTP_RESPONSE_READ_STATUS ReadHttpResponse2();
 };
 

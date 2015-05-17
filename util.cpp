@@ -43,7 +43,29 @@ wstringvec split(const wstring &input, wchar_t delim)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-wstring UTF8toWide(LPCSTR pUtf8String)
+wstring UTF8ToWide(LPCSTR pUtf8String)
 {
     return (LPCWSTR)CA2W(pUtf8String, CP_UTF8);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+CStringA WideToUTF8(LPCWSTR pWideString)
+{
+    return (LPCSTR)CW2A(pWideString, CP_UTF8);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+wstring modulename()
+{
+    wchar_t path[_MAX_PATH + _MAX_FNAME + 1] = { 0 };
+    GetModuleFileName(modulehandle(), path, _MAX_PATH + _MAX_FNAME);
+    return path;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+HINSTANCE modulehandle()
+{
+    MEMORY_BASIC_INFORMATION mbi;
+    VirtualQuery(modulehandle, &mbi, sizeof(mbi));
+    return (HINSTANCE)mbi.AllocationBase;
 }

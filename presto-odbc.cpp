@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "presto-odbc.h"
 #include "Connection.h"
+#include "Statement.h"
 #include "util.h"
 #include "Session.h"
 #include "OutputBuffer.h"
@@ -21,6 +22,11 @@ extern "C" {
         case SQL_HANDLE_DBC:
             *OutputHandle = static_cast<SQLHANDLE>(
                 new Connection(static_cast<LPENVIRONMENT>(InputHandle))
+                );
+            break;
+        case SQL_HANDLE_STMT:
+            *OutputHandle = static_cast<SQLHANDLE>(
+                new Statement(static_cast<LPCONNECTION>(InputHandle))
                 );
             break;
         default:
@@ -294,6 +300,9 @@ extern "C" {
         case SQL_HANDLE_DBC:
             delete static_cast<LPCONNECTION>(Handle);
             break;
+        case SQL_HANDLE_STMT:
+            delete static_cast<LPSTATEMENT>(Handle);
+            break;
         default:
             return SQL_ERROR;
         }
@@ -305,6 +314,7 @@ extern "C" {
     PRESTOODBC_API SQLRETURN SQL_API SQLFreeStmt(SQLHSTMT StatementHandle,
         SQLUSMALLINT Option)
     {
+        // TODO: implement
         return SQL_SUCCESS;
     }
 
@@ -702,7 +712,7 @@ extern "C" {
         _In_reads_(_Inexpressible_(StringLength)) SQLPOINTER Value,
         SQLINTEGER StringLength)
     {
-        return SQL_SUCCESS;
+        return SQL_ERROR;
     }
 
     ///////////////////////////////////////////////////////////////////////////

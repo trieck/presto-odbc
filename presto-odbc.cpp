@@ -216,14 +216,8 @@ extern "C" {
             return SQL_ERROR;   // can't connect
         }
 
-        if (szConnStrOut != NULL) {
-            auto inlen = cchConnStrIn == SQL_NTS ?
-                wcslen(szConnStrIn) : cchConnStrIn;
-            auto len = min(cchConnStrOutMax, inlen);
-            wcsncpy(szConnStrOut, szConnStrIn, len);
-            szConnStrOut[len] = L'\0';
-            *pcchConnStrOut = (SQLSMALLINT)len;
-        }
+        OutputBuffer buffer(szConnStrOut, cchConnStrOutMax, pcchConnStrOut);
+        buffer.copy(strConn.c_str());
 
         return SQL_SUCCESS;
     }
@@ -320,6 +314,17 @@ extern "C" {
         SQLPOINTER Value, SQLINTEGER BufferLength,
         _Out_opt_ SQLINTEGER *StringLengthPtr)
     {
+        auto conn = static_cast<LPCONNECTION>(ConnectionHandle);
+        auto& session = conn->getSession();
+
+        switch (Attribute) {
+        case SQL_ATTR_LOGIN_TIMEOUT:
+            *(SQLUINTEGER*)Value = session.timeout;
+            break;
+        default:
+            return SQL_ERROR;
+        }
+
         return SQL_SUCCESS;
     }
 
@@ -399,6 +404,7 @@ extern "C" {
         _Out_opt_ SQLSMALLINT* pcbInfoValue)
     {
         auto conn = static_cast<LPCONNECTION>(hdbc);
+        auto& session = conn->getSession();
         auto buffer = OutputBuffer(rgbInfoValue, cbInfoValueMax, pcbInfoValue);
 
         switch (fInfoType) {
@@ -471,6 +477,16 @@ extern "C" {
         case SQL_MAXIMUM_CATALOG_NAME_LENGTH:
         case SQL_MAX_TABLE_NAME_LEN:
             *(SQLUSMALLINT*)rgbInfoValue = 0;
+            break;
+        case SQL_USER_NAME:
+            buffer.copy(session.user.c_str());
+            break;
+        case SQL_SERVER_NAME:
+            buffer.copy(session.endpoint.c_str());
+            break;
+        case SQL_DATABASE_NAME:
+            buffer.copy(session.schema.c_str());
+            break;
         default:
             return SQL_ERROR;
         }
@@ -483,14 +499,16 @@ extern "C" {
         _Out_writes_opt_(_Inexpressible_(BufferLength)) SQLPOINTER Value,
         SQLINTEGER BufferLength, _Out_opt_ SQLINTEGER *StringLength)
     {
-        return SQL_SUCCESS;
+        // TODO: implement
+        return SQL_ERROR;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     PRESTOODBC_API SQLRETURN SQL_API SQLGetTypeInfoW(SQLHSTMT StatementHandle,
         SQLSMALLINT DataType)
     {
-        return SQL_SUCCESS;
+        // TODO: implement
+        return SQL_ERROR;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -509,6 +527,12 @@ extern "C" {
         SQLINTEGER        *pcbSqlStr
         )
     {
+        auto input = ODBCString(szSqlStrIn, cchSqlStrIn);
+
+        OutputBuffer buffer(szSqlStr, cchSqlStrMax, pcbSqlStr);
+
+        buffer.copy(input.c_str());
+
         return SQL_SUCCESS;
     }
 

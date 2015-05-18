@@ -1,40 +1,40 @@
 #include "stdafx.h"
-#include "Statement.h"
+#include "StatementClient.h"
 #include "util.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-Statement::Statement(const Session& session, const wstring & query)
+StatementClient::StatementClient(const Session& session, const wstring & query)
     : m_session(session), m_query(query), m_succeeded(false)
 {
     runQuery();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Statement::~Statement()
+StatementClient::~StatementClient()
 {
     cancelQuery();
 }
 
 //////////////////////////////////////////////////////////////////////////////
-StatementPtr Statement::makeStatement(const Session& session,
-    const wstring & query)
+StatementClientPtr StatementClient::makeClient(const Session& session,
+    const wstring& query)
 {
-    return std::make_shared<Statement>(session, query);
+    return std::make_shared<StatementClient>(session, query);
 }
 
 //////////////////////////////////////////////////////////////////////////////
-wstring Statement::makeHeaders()
+wstring StatementClient::makeHeaders()
 {
     wstringstream os;
     os << L"x-presto-user: " << m_session.user << L'\n';
     os << L"x-presto-catalog: " << m_session.catalog << L'\n';
     os << L"x-presto-schema: " << m_session.schema << L'\n';
-    os << L"x-presto-source:" << L"presto-odbc\n";
+    os << L"x-presto-source: " << L"presto-odbc\n";
     return os.str();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Statement::runQuery()
+void StatementClient::runQuery()
 {
     CAtlNavigateData data;
     data.SetMethod(L"POST");
@@ -56,7 +56,7 @@ void Statement::runQuery()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Statement::cancelQuery()
+void StatementClient::cancelQuery()
 {
     if (m_results.m_nextURI.length() == 0)
         return;

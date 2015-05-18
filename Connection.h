@@ -18,8 +18,8 @@ public:
 
 private:
     LPENVIRONMENT m_pEnv;
-    Session session;
-    PrestoClient client;
+    Session m_session;
+    PrestoClient m_client;
 };
 
 typedef Connection *LPCONNECTION;

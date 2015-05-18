@@ -48,7 +48,7 @@
     <ClInclude Include="OutputBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Statement.h">
+    <ClInclude Include="StatementClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClCompile Include="OutputBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Statement.cpp">
+    <ClCompile Include="StatementClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

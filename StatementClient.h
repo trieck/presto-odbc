@@ -4,17 +4,17 @@
 #include "QueryResults.h"
 #include "AtlHttpClient2.h"
 
-class Statement;
-typedef std::shared_ptr<Statement> StatementPtr;
+class StatementClient;
+typedef std::shared_ptr<StatementClient> StatementClientPtr;
 
 ///////////////////////////////////////////////////////////////////////////////
-class Statement
+class StatementClient
 {
 public:
-    Statement(const Session& session, const wstring & query);
-    ~Statement();
-    static StatementPtr makeStatement(const Session& session,
-        const wstring & query);
+    StatementClient(const Session& session, const wstring& query);
+    ~StatementClient();
+    static StatementClientPtr makeClient(const Session& session,
+        const wstring& query);
 
     inline bool succeeded() const {
         return m_succeeded;

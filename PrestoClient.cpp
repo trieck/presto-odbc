@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PrestoClient.h"
-#include "Statement.h"
+#include "StatementClient.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 PrestoClient::PrestoClient()
@@ -13,8 +13,9 @@ PrestoClient::~PrestoClient()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-StatementPtr PrestoClient::query(const Session& session, const wstring& query)
+StatementClientPtr PrestoClient::query(const Session& session,
+    const wstring& query)
 {
-    StatementPtr stmt = Statement::makeStatement(session, query);
+    StatementClientPtr stmt = StatementClient::makeClient(session, query);
     return stmt;
 }

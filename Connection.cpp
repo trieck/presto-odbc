@@ -58,12 +58,12 @@ stringmap Connection::parseConnectionString(const wstring &input)
 ///////////////////////////////////////////////////////////////////////////////
 bool Connection::connect()
 {
-    StatementPtr stmt = client.query(session, L"select 1");
+    StatementClientPtr stmt = m_client.query(m_session, L"select 1");
     return stmt->succeeded();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Session& Connection::getSession()
 {
-    return session;
+    return m_session;
 }

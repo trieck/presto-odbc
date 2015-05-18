@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Session.h"
-#include "Statement.h"
+#include "StatementClient.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 class PrestoClient
@@ -9,6 +9,6 @@ class PrestoClient
 public:
     PrestoClient();
     ~PrestoClient();
-    StatementPtr query(const Session& session, const wstring& str);
+    StatementClientPtr query(const Session& session, const wstring& str);
 };
 

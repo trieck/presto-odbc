@@ -4,14 +4,20 @@
 class OutputBuffer
 {
 public:
-    OutputBuffer(SQLPOINTER buffer, SQLSMALLINT maxLengthBytes, 
+    OutputBuffer(SQLPOINTER buffer, SQLINTEGER maxLengthBytes, 
+        SQLINTEGER* pLengthBytes);
+    OutputBuffer(SQLPOINTER buffer, SQLSMALLINT maxLengthBytes,
         SQLSMALLINT* pLengthBytes);
+    OutputBuffer(SQLWCHAR* buffer, SQLINTEGER maxLengthBytes,
+        SQLINTEGER* pLengthBytes);
     ~OutputBuffer();
     
     void copy(LPCWSTR szValue);
 private:
+    void OutputBuffer::Initialize(SQLWCHAR* buffer, 
+        SQLINTEGER maxLengthBytes, SQLINTEGER* pLengthBytes);
     SQLWCHAR *m_buffer;
-    SQLSMALLINT m_maxLengthBytes;
-    SQLSMALLINT* m_pLengthBytes;
+    SQLINTEGER m_maxLengthBytes;
+    SQLINTEGER* m_pLengthBytes;
 };
 

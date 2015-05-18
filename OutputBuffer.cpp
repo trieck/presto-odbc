@@ -2,10 +2,32 @@
 #include "OutputBuffer.h"
 
 ///////////////////////////////////////////////////////////////////////////
+OutputBuffer::OutputBuffer(SQLPOINTER buffer, SQLINTEGER maxLengthBytes,
+    SQLINTEGER* pLengthBytes)
+{
+    Initialize((SQLWCHAR*)buffer, maxLengthBytes, pLengthBytes);
+}
+
+///////////////////////////////////////////////////////////////////////////
 OutputBuffer::OutputBuffer(SQLPOINTER buffer, SQLSMALLINT maxLengthBytes,
     SQLSMALLINT* pLengthBytes)
 {
-    m_buffer = (SQLWCHAR*)buffer;
+    Initialize((SQLWCHAR*)buffer, maxLengthBytes,
+        (SQLINTEGER*)pLengthBytes);
+}
+
+///////////////////////////////////////////////////////////////////////////
+OutputBuffer::OutputBuffer(SQLWCHAR* buffer, SQLINTEGER maxLengthBytes,
+    SQLINTEGER* pLengthBytes)
+{
+    Initialize(buffer, maxLengthBytes, pLengthBytes);
+}
+
+///////////////////////////////////////////////////////////////////////////
+void OutputBuffer::Initialize(SQLWCHAR* buffer, SQLINTEGER maxLengthBytes,
+    SQLINTEGER* pLengthBytes)
+{
+    m_buffer = buffer;
     m_maxLengthBytes = maxLengthBytes;
     m_pLengthBytes = pLengthBytes;
     if (m_pLengthBytes) {

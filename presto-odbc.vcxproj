@@ -155,7 +155,7 @@
     <ClInclude Include="PrestoClient.h" />
     <ClInclude Include="QueryResults.h" />
     <ClInclude Include="Session.h" />
-    <ClInclude Include="Statement.h" />
+    <ClInclude Include="StatementClient.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="util.h" />
@@ -183,7 +183,7 @@
     <ClCompile Include="PrestoClient.cpp" />
     <ClCompile Include="QueryResults.cpp" />
     <ClCompile Include="Session.cpp" />
-    <ClCompile Include="Statement.cpp" />
+    <ClCompile Include="StatementClient.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
